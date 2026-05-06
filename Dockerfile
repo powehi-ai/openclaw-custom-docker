@@ -20,25 +20,28 @@ RUN apt-get update && apt-get install -y \
   gh \
   && rm -rf /var/lib/apt/lists/*
 
-# rg alias
 RUN ln -sf /usr/bin/rg /usr/local/bin/rg || true
-
-# fd alias
 RUN ln -sf /usr/bin/fdfind /usr/local/bin/fd || true
 
-# obsidian-cli
-RUN npm install -g obsidian-cli
+# Homebrew
+RUN useradd -m -s /bin/bash linuxbrew || true
 
-# mcporter
-RUN npm install -g mcporter
+RUN mkdir -p /home/linuxbrew/.linuxbrew && \
+    chown -R linuxbrew:linuxbrew /home/linuxbrew
 
-# playwright
-RUN npx playwright install --with-deps chromium || true
+USER linuxbrew
+
+RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+
+RUN brew install jq
+RUN brew install yakitrak/tap/obsidian-cli
 
 USER root
 
-RUN touch /etc/openclaw-custom-build
+RUN npm install -g mcporter
 
-ENV PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
+RUN touch /etc/openclaw-custom-build
 
 USER root
