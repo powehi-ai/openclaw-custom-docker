@@ -1,8 +1,6 @@
 ARG OPENCLAW_IMAGE=alpine/openclaw:latest
 FROM ${OPENCLAW_IMAGE}
 
-USER root
-
 RUN apt-get update && apt-get install -y \
   bash curl git jq unzip ca-certificates \
   python3 python3-pip ripgrep fd-find \
