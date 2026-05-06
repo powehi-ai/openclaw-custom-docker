@@ -36,7 +36,11 @@ RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEA
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 RUN brew install jq
-RUN brew install yakitrak/tap/obsidian-cli
+
+RUN npm install -g obsidian
+
+RUN printf '#!/bin/sh\nexec obsidian "$@"\n' > /usr/local/bin/obsidian-cli \
+  && chmod +x /usr/local/bin/obsidian-cli
 
 USER root
 
