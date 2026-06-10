@@ -1,34 +1,106 @@
-OpenClaw Custom Image
+# OpenClaw Custom Docker Image
 
-This repository provides a custom Docker image for OpenClaw.
+Custom Docker image for OpenClaw with additional developer tools and utilities pre-installed.
 
-The image extends the official `alpine/openclaw:latest` image and adds:
+## Features
 
-- jq
-- ripgrep (`rg`)
-- Python 3
-- Playwright Chromium dependencies
-- mcporter
-- defuddle
-- obsidian CLI
+This image extends the official OpenClaw Docker image and adds:
 
-## Build and Publish
+* Bash
+* Curl
+* Git
+* jq
+* unzip
+* Python 3 + pip
+* ripgrep (`rg`)
+* fd (`fdfind`)
+* build-essential
+* GitHub CLI (`gh`)
+* mcporter
+* Obsidian CLI wrapper
 
-The GitHub Actions workflow automatically:
+## Base Image
 
-1. Builds the Docker image
-2. Pushes it to GitHub Container Registry (GHCR)
+This image is built from the official OpenClaw image:
 
-Published image:
+```text
+ghcr.io/openclaw/openclaw:latest
+```
 
-```txt
-ghcr.io/powehi-ai/openclaw-image:latest
+The build process automatically incorporates the latest OpenClaw releases while preserving all custom additions.
+
+## Available Image
+
+```bash
+docker pull ghcr.io/powehi-ai/openclaw-image:latest
 ```
 
 ## Usage
 
-Set the following environment variable in your deployment platform:
+### Docker
+
+```bash
+docker run --rm -it \
+  ghcr.io/powehi-ai/openclaw-image:latest
+```
+
+### OpenClaw Configuration
 
 ```env
 OPENCLAW_IMAGE=ghcr.io/powehi-ai/openclaw-image:latest
 ```
+
+## Included Commands
+
+Verify installed tools:
+
+```bash
+gh --version
+python3 --version
+pip3 --version
+rg --version
+fd --version
+mcporter --version
+obsidian-cli --help
+```
+
+## Automatic Updates
+
+This repository automatically rebuilds the custom image from the latest official OpenClaw image.
+
+Workflow triggers:
+
+* Push to `main`
+* Manual execution (`workflow_dispatch`)
+* Scheduled rebuild every 6 hours
+
+When a new OpenClaw version is published, the custom image is rebuilt and pushed automatically to GHCR.
+
+## Dockerfile Overview
+
+The image is generated from:
+
+```dockerfile
+ARG OPENCLAW_IMAGE=ghcr.io/openclaw/openclaw:latest
+FROM ${OPENCLAW_IMAGE}
+```
+
+Additional packages and utilities are then installed on top of the official OpenClaw image.
+
+## Container Registry
+
+Package:
+
+```text
+ghcr.io/powehi-ai/openclaw-image
+```
+
+Latest version:
+
+```text
+ghcr.io/powehi-ai/openclaw-image:latest
+```
+
+## License
+
+This project extends OpenClaw and follows the licensing terms of the upstream project.
