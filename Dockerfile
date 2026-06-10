@@ -1,4 +1,4 @@
-ARG OPENCLAW_IMAGE=alpine/openclaw:latest
+ARG OPENCLAW_IMAGE=openclaw/openclaw:latest
 FROM ${OPENCLAW_IMAGE}
 
 USER root
