@@ -4,11 +4,17 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
   packages: write
+
+env:
+  OFFICIAL_IMAGE: ghcr.io/openclaw/openclaw:latest
+  CUSTOM_IMAGE: ghcr.io/powehi-ai/openclaw-image
 
 jobs:
   publish:
@@ -25,11 +31,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Pull official OpenClaw image
+        id: base
+        run: |
+          docker pull $OFFICIAL_IMAGE
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $OFFICIAL_IMAGE | cut -d@ -f2)
+          SAFE_DIGEST=$(echo "$DIGEST" | sed 's/:/-/')
+          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+          echo "safe_digest=$SAFE_DIGEST" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ghcr.io/powehi-ai/openclaw-image:latest
           build-args: |
-            OPENCLAW_IMAGE=alpine/openclaw:latest
+            OPENCLAW_IMAGE=${{ env.OFFICIAL_IMAGE }}
+          tags: |
+            ${{ env.CUSTOM_IMAGE }}:latest
+            ${{ env.CUSTOM_IMAGE }}:base-${{ steps.base.outputs.safe_digest }}
+          labels: |
+            org.opencontainers.image.base.name=${{ env.OFFICIAL_IMAGE }}
+            org.opencontainers.image.base.digest=${{ steps.base.outputs.digest }}
