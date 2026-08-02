@@ -1,4 +1,4 @@
-# OpenClaw Custom Docker Image
+## OpenClaw Custom Docker Image
 
 Custom Docker image for OpenClaw with additional developer tools and utilities pre-installed.
 
