@@ -15,6 +15,7 @@ permissions:
 env:
   OFFICIAL_IMAGE: ghcr.io/openclaw/openclaw:latest
   CUSTOM_IMAGE: ghcr.io/bgrenat/openclaw-image
+  POWEHI_PLUGIN_REF: v2.2.9
 
 jobs:
   publish:
@@ -50,9 +51,11 @@ jobs:
           push: true
           build-args: |
             OPENCLAW_IMAGE=${{ env.OFFICIAL_IMAGE }}
+            POWEHI_PLUGIN_REF=${{ env.POWEHI_PLUGIN_REF }}
           tags: |
             ${{ env.CUSTOM_IMAGE }}:latest
             ${{ env.CUSTOM_IMAGE }}:base-${{ steps.base.outputs.safe_digest }}
           labels: |
             org.opencontainers.image.base.name=${{ env.OFFICIAL_IMAGE }}
             org.opencontainers.image.base.digest=${{ steps.base.outputs.digest }}
+            io.openclaw.plugin.powehi-universal-seo-geo.version=${{ env.POWEHI_PLUGIN_REF }}

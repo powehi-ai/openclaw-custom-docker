@@ -18,6 +18,7 @@ This image extends the official OpenClaw Docker image and adds:
 * GitHub CLI (`gh`)
 * mcporter
 * Obsidian CLI wrapper
+* Powehi Universal SEO & GEO OpenClaw plugin
 
 ## Base Image
 
@@ -62,7 +63,26 @@ rg --version
 fd --version
 mcporter --version
 obsidian-cli --help
+openclaw plugins inspect powehi-universal-seo-geo --runtime --json
 ```
+
+## Included OpenClaw Plugin
+
+[Powehi Universal SEO](https://github.com/powehi-eu/powehi-seo-geo-universal)
+is installed and enabled as a native OpenClaw plugin. The image pins the plugin
+to release `v2.2.9` so scheduled image rebuilds remain reproducible.
+
+Run its workflows from OpenClaw:
+
+```text
+/powehi-seo audit https://example.com
+/powehi-seo technical https://example.com
+/powehi-seo geo https://example.com
+/powehi-seo doctor
+```
+
+The core plugin works without paid API credentials. Optional Google and
+third-party data connectors still require their own configuration and secrets.
 
 ## Automatic Updates
 
