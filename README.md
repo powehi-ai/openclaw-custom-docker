@@ -32,7 +32,7 @@ The build process automatically incorporates the latest OpenClaw releases while 
 ## Available Image
 
 ```bash
-docker pull ghcr.io/powehi-ai/openclaw-image:latest
+docker pull ghcr.io/bgrenat/openclaw-image:latest
 ```
 
 ## Usage
@@ -41,13 +41,13 @@ docker pull ghcr.io/powehi-ai/openclaw-image:latest
 
 ```bash
 docker run --rm -it \
-  ghcr.io/powehi-ai/openclaw-image:latest
+  ghcr.io/bgrenat/openclaw-image:latest
 ```
 
 ### OpenClaw Configuration
 
 ```env
-OPENCLAW_IMAGE=ghcr.io/powehi-ai/openclaw-image:latest
+OPENCLAW_IMAGE=ghcr.io/bgrenat/openclaw-image:latest
 ```
 
 ## Included Commands
@@ -92,13 +92,13 @@ Additional packages and utilities are then installed on top of the official Open
 Package:
 
 ```text
-ghcr.io/powehi-ai/openclaw-image
+ghcr.io/bgrenat/openclaw-image
 ```
 
 Latest version:
 
 ```text
-ghcr.io/powehi-ai/openclaw-image:latest
+ghcr.io/bgrenat/openclaw-image:latest
 ```
 
 ## License

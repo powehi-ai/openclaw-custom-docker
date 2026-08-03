@@ -14,7 +14,7 @@ permissions:
 
 env:
   OFFICIAL_IMAGE: ghcr.io/openclaw/openclaw:latest
-  CUSTOM_IMAGE: ghcr.io/powehi-ai/openclaw-image
+  CUSTOM_IMAGE: ghcr.io/bgrenat/openclaw-image
 
 jobs:
   publish:
